@@ -1,0 +1,13 @@
+{
+  "extends": ["airbnb", "airbnb/hooks", "airbnb-typescript"],
+  "parserOptions": {
+    "project": ["./tsconfig.json", "./tsconfig.node.json"]
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+    "no-restricted-exports": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+  }
+}

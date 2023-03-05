@@ -1,31 +1,30 @@
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router-dom";
+} from 'react-router-dom';
 import Projekt1 from './pages/Projekt1';
 import Homepage from './pages/Homepage';
-import Projekt2 from "./pages/Projekt2";
-
+import Projekt2 from './pages/Projekt2';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Homepage />,
   },
   {
-    path: "/projekt1",
+    path: '/projekt1',
     element: <Projekt1 />,
   },
   {
-    path: "/projekt2",
+    path: '/projekt2',
     element: <Projekt2 />,
   },
 ]);
 
 function App() {
   return (
-   <RouterProvider router={router} />
-  )
+    <RouterProvider router={router} />
+  );
 }
 
-export default App
+export default App;
