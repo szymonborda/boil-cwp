@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import type { Action } from './Projekt1';
+import { Action } from './types';
 import styles from './styles.module.scss';
 
 interface ActionInputProps {
@@ -38,6 +38,10 @@ export default function ActionInput({
       predecessors: predecessors?.split(',').map((predecessor) => predecessor.trim()) ?? [],
     }]);
   };
+
+  const removeAction = (name: string) => {
+    setActions(actions.filter((action) => action.name !== name));
+  };
   return (
     <div>
       <span className={styles.error}>{error}</span>
@@ -55,6 +59,7 @@ export default function ActionInput({
               <td>{action.name}</td>
               <td>{action.time}</td>
               <td>{action.predecessors.join(', ')}</td>
+              <td><button onClick={() => removeAction(action.name)} type="button">Usuń</button></td>
             </tr>
           )) }
         </tbody>
@@ -66,7 +71,7 @@ export default function ActionInput({
           </tr>
         </tfoot>
       </table>
-      <button onClick={addAction} type="button">Add</button>
+      <button onClick={addAction} type="button">Dodaj</button>
     </div>
   );
 }
