@@ -14,16 +14,14 @@ export default function ActionInput({
   const [error, setError] = useState('');
   const nameRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
-  const fromRef = useRef<HTMLInputElement>(null);
-  const toRef = useRef<HTMLInputElement>(null);
+  const predecessorsRef = useRef<HTMLInputElement>(null);
 
   const addAction = () => {
     const name = nameRef.current?.value;
     const time = timeRef.current?.value;
-    const from = fromRef.current?.value;
-    const to = toRef.current?.value;
+    const predecessors = predecessorsRef.current?.value;
 
-    if (!name || !time || !from || !to) {
+    if (!name || !time) {
       setError('Wypełnij wszystkie pola!');
       return;
     }
@@ -37,8 +35,7 @@ export default function ActionInput({
     setActions([...actions, {
       name,
       time: Number(time),
-      from: Number(from),
-      to: Number(to),
+      predecessors: predecessors?.split(',').map((predecessor) => predecessor.trim()) ?? [],
     }]);
   };
   return (
@@ -49,8 +46,7 @@ export default function ActionInput({
           <tr>
             <th>Nazwa</th>
             <th>Czas</th>
-            <th>Start</th>
-            <th>Koniec</th>
+            <th>Poprzednicy</th>
           </tr>
         </thead>
         <tbody>
@@ -58,8 +54,7 @@ export default function ActionInput({
             <tr key={action.name}>
               <td>{action.name}</td>
               <td>{action.time}</td>
-              <td>{action.from}</td>
-              <td>{action.to}</td>
+              <td>{action.predecessors.join(', ')}</td>
             </tr>
           )) }
         </tbody>
@@ -67,8 +62,7 @@ export default function ActionInput({
           <tr>
             <td><input type="text" ref={nameRef} /></td>
             <td><input type="number" ref={timeRef} /></td>
-            <td><input type="number" ref={fromRef} /></td>
-            <td><input type="text" ref={toRef} /></td>
+            <td><input type="text" ref={predecessorsRef} /></td>
           </tr>
         </tfoot>
       </table>

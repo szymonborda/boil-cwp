@@ -3,9 +3,13 @@ import ActionInput from './ActionInput';
 
 export interface Action {
   name: string;
-  from: number;
-  to: number;
+  predecessors: string[];
   time: number;
+  ES?: number;
+  EF?: number;
+  LS?: number;
+  LF?: number;
+  slack?: number;
 }
 
 function Projekt1() {
