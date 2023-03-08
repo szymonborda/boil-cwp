@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import EdgeInput from './EdgeInput';
+import ActionInput from './ActionInput';
 
-export interface Edge {
+export interface Action {
   name: string;
   from: number;
   to: number;
@@ -9,11 +9,11 @@ export interface Edge {
 }
 
 function Projekt1() {
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const [actions, setActions] = useState<Action[]>([]);
   return (
     <div className="projekt1">
       <h1>Strona pod projekt 1</h1>
-      <EdgeInput edges={edges} setEdges={setEdges} />
+      <ActionInput actions={actions} setActions={setActions} />
     </div>
   );
 }
