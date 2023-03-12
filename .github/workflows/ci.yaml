@@ -5,6 +5,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
     - name: Install modules
       run: yarn
     - name: Run build
@@ -13,6 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
     - name: Install modules
       run: yarn
     - name: Run ESLint
@@ -21,6 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
     - name: Install modules
       run: yarn
     - name: Run typecheck
