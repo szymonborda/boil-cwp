@@ -56,7 +56,7 @@ export default function calculateCPM(actionsRef: Action[]) {
   }
   for (let i = 0; i < actions.length; i += 1) {
     actions[i].slack = actions[i].LS! - actions[i].ES!;
-    if (actions[i].slack === 0) actions[i].critical = true;
+    actions[i].critical = actions[i].slack === 0;
   }
   // return all actions except the hidden one
   return actions.slice(0, -1);

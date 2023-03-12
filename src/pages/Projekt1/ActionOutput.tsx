@@ -7,6 +7,11 @@ interface ActionOutputProps {
   setActions: (actions: Action[]) => void;
 }
 
+const getCriticalLabel = (isCritical: boolean | undefined) => {
+  if (isCritical === undefined) return '';
+  return isCritical ? 'Tak' : 'Nie';
+};
+
 export default function ActionOutput({
   actions,
   setActions,
@@ -39,7 +44,7 @@ export default function ActionOutput({
               <td>{action.LS}</td>
               <td>{action.LF}</td>
               <td>{action.slack}</td>
-              <td>{action.critical ? 'Tak' : 'Nie'}</td>
+              <td>{getCriticalLabel(action.critical)}</td>
             </tr>
           )) }
         </tbody>
