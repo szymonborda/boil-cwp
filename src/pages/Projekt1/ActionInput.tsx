@@ -35,7 +35,7 @@ export default function ActionInput({
     setActions([...actions, {
       name,
       time: Number(time),
-      predecessors: predecessors?.split(',').map((predecessor) => predecessor.trim()) ?? [],
+      predecessors: predecessors !== '' ? predecessors?.split(',').map((predecessor) => predecessor.trim()) ?? [] : [],
     }]);
   };
 
