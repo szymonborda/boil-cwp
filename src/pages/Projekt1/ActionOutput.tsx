@@ -1,10 +1,8 @@
-import calculateCPM from './cpm';
 import { Action } from './types';
 import styles from './styles.module.scss';
 
 interface ActionOutputProps {
   actions: Action[];
-  setActions: (actions: Action[]) => void;
 }
 
 const getCriticalLabel = (isCritical: boolean | undefined) => {
@@ -14,11 +12,7 @@ const getCriticalLabel = (isCritical: boolean | undefined) => {
 
 export default function ActionOutput({
   actions,
-  setActions,
 }: ActionOutputProps) {
-  const calculate = () => {
-    setActions(calculateCPM(actions));
-  };
   return (
     <div>
       <table className={styles['input-table']}>
@@ -49,7 +43,6 @@ export default function ActionOutput({
           )) }
         </tbody>
       </table>
-      <button onClick={calculate} type="button">Oblicz</button>
     </div>
   );
 }

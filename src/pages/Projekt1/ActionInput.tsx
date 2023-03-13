@@ -5,11 +5,13 @@ import styles from './styles.module.scss';
 interface ActionInputProps {
   actions: Action[];
   setActions: (edges: Action[]) => void;
+  setIsCalculated: (isCalculated: boolean) => void;
 }
 
 export default function ActionInput({
   actions,
   setActions,
+  setIsCalculated,
 }: ActionInputProps) {
   const [error, setError] = useState('');
   const nameRef = useRef<HTMLInputElement>(null);
@@ -32,6 +34,7 @@ export default function ActionInput({
     }
 
     setError('');
+    setIsCalculated(false);
     setActions([...actions, {
       name,
       time: Number(time),
@@ -41,6 +44,7 @@ export default function ActionInput({
 
   const removeAction = (name: string) => {
     setActions(actions.filter((action) => action.name !== name));
+    setIsCalculated(false);
   };
   return (
     <div>
