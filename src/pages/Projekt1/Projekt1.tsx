@@ -7,7 +7,7 @@ import Gantt from './Gantt';
 import calculateCPM from './cpm';
 
 function Projekt1() {
-  const [actions, setActions] = useState<Action[]>(examples[1]);
+  const [actions, setActions] = useState<Action[]>(examples[2]);
   const [isCalculated, setIsCalculated] = useState(false);
   const calculate = () => {
     setActions(calculateCPM(actions));

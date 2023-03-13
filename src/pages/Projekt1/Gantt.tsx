@@ -18,7 +18,7 @@ function Gantt({ actions }: GanttProps) {
     end: new Date(new Date().setDate(new Date().getDate() + action.EF! || 0)),
     dependencies: action.predecessors,
     progress: 100,
-  })).reverse();
+  }));
   return (
     <GanttTaskReact
       tasks={tasks}
