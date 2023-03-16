@@ -63,7 +63,7 @@ export default function ActionInput({
               <td>{action.name}</td>
               <td>{action.time}</td>
               <td>{action.predecessors.join(', ')}</td>
-              <td><button onClick={() => removeAction(action.name)} type="button">Usuń</button></td>
+              <td><button onClick={() => removeAction(action.name)} type="button" className="buttonOutlined">Usuń</button></td>
             </tr>
           )) }
         </tbody>
@@ -72,10 +72,10 @@ export default function ActionInput({
             <td><input type="text" ref={nameRef} /></td>
             <td><input type="number" ref={timeRef} /></td>
             <td><input type="text" ref={predecessorsRef} /></td>
+            <td><button onClick={addAction} type="button" className="buttonFilled">Dodaj</button></td>
           </tr>
         </tfoot>
       </table>
-      <button onClick={addAction} type="button">Dodaj</button>
     </div>
   );
 }

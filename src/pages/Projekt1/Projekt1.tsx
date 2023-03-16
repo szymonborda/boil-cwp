@@ -15,15 +15,24 @@ function Projekt1() {
   };
   return (
     <div className="projekt1">
-      <h1>Strona pod projekt 1</h1>
-      <ActionInput actions={actions} setActions={setActions} setIsCalculated={setIsCalculated} />
-      <button onClick={calculate} type="button">Oblicz</button>
-      {isCalculated ? (
-        <>
-          <ActionOutput actions={actions} />
-          <Gantt actions={actions} />
-        </>
-      ) : null}
+      <div className="header">
+        <h1>Critical Path Method</h1>
+        <h4>Projekt 1</h4>
+      </div>
+      <div className="panelContainer">
+        <div className="panel">
+          <div className="title">Wprowadzanie danych</div>
+          <ActionInput actions={actions} setActions={setActions} setIsCalculated={setIsCalculated} />
+          <button onClick={calculate} type="button" className="buttonFilled" style={{width: '96%', margin: '10px'}}>Oblicz</button>
+        </div>
+        
+        {isCalculated ? (
+          <>
+            <div className="panel"><div className="title">Obliczenia</div><ActionOutput actions={actions} /></div>
+            <div className="panel"><div className="title">Wykres Gantt'a</div><Gantt actions={actions} /></div>
+          </>
+        ) : null}
+      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ interface ActionOutputProps {
 
 const getCriticalLabel = (isCritical: boolean | undefined) => {
   if (isCritical === undefined) return '';
-  return isCritical ? 'Tak' : 'Nie';
+  return isCritical ? '✔️' : '❌';
 };
 
 export default function ActionOutput({
@@ -20,10 +20,10 @@ export default function ActionOutput({
           <tr>
             <th>Czynność</th>
             <th>Czas trwania</th>
-            <th>ES</th>
-            <th>EF</th>
-            <th>LS</th>
-            <th>LF</th>
+            <th title="EARLY START">ES</th>
+            <th title="EARLY FINISH">EF</th>
+            <th title="LATE START">LS</th>
+            <th title="LATE FINISH">LF</th>
             <th>Rezerwa</th>
             <th>Czynność krytyczna</th>
           </tr>

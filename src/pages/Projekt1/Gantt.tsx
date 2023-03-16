@@ -22,6 +22,7 @@ function Gantt({ actions }: GanttProps) {
   return (
     <GanttTaskReact
       tasks={tasks}
+      listCellWidth=""
     />
   );
 }
