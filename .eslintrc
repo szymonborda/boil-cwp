@@ -4,7 +4,6 @@
     "project": ["./tsconfig.json", "./tsconfig.node.json"]
   },
   "rules": {
-    "linebreak-style": ["error", "windows"],
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
