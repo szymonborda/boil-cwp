@@ -117,7 +117,12 @@ input {
   background-color: rgb(59, 59, 59);
   border: 1px white solid;
   border-radius: 4px;
+  height: 35px;
   color: #e2e2e2;
+  box-sizing: border-box;
+  padding-inline: 5px;
+  font-size: 1rem;
+  font-family: inherit;
 }
 
 button.buttonOutlined,

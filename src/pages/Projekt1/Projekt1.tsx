@@ -28,14 +28,18 @@ function Projekt1() {
             {' '}
             <input type="date" name="startDate" ref={startDate} onChange={() => setIsCalculated(false)} style={{ margin: '10px' }} />
           </div>
-          <ActionInput actions={actions} setActions={setActions} setIsCalculated={setIsCalculated} />
-          <button onClick={calculate} type="button" className="buttonFilled" style={{ width: '96%', margin: '10px' }}>Oblicz</button>
+          <ActionInput
+            actions={actions}
+            setActions={setActions}
+            setIsCalculated={setIsCalculated}
+          />
+          <button onClick={calculate} type="button" className="buttonFilled" style={{ width: '100%', marginTop: '10px' }}>Oblicz</button>
         </div>
 
         {isCalculated ? (
           <>
             <div className="panel">
-              <div className="title">Obliczenia</div>
+              <div className="title">Wyniki obliczeń</div>
               <ActionOutput actions={actions} />
             </div>
             <div className="panel">

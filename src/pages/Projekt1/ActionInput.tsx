@@ -52,9 +52,10 @@ export default function ActionInput({
       <table className={styles['input-table']}>
         <thead>
           <tr>
-            <th>Nazwa</th>
-            <th>Czas</th>
+            <th>Czynność</th>
+            <th>Czas trwania</th>
             <th>Poprzednicy</th>
+            <th>Akcja</th>
           </tr>
         </thead>
         <tbody>
