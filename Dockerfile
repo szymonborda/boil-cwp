@@ -14,5 +14,5 @@ CMD ["yarn", "run", "typecheck"]
 FROM boil-cwp-build as boil-cwp-lint
 CMD ["yarn", "run", "lint"]
 
-FROM nginx:latest as boil-cwp-nginx
+FROM nginx:1.23 as boil-cwp-nginx
 COPY --from=boil-cwp-build /usr/src/app/boil-cwp/dist /usr/share/nginx/html
