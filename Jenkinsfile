@@ -26,8 +26,7 @@ pipeline {
                   steps {
                     sh "touch logs.log"
                     sh "docker build -t boil-cwp-vitest:${VERSION} --target boil-cwp-vitest ."
-                    sh "docker remove boil-cwp-vitest -f"
-                    sh "docker run --name boil-cwp-vitest boil-cwp-vitest:${VERSION}"
+                    sh "docker run --rm --name boil-cwp-vitest boil-cwp-vitest:${VERSION}"
                     archiveArtifacts '**/*log'
                   }
                 }
@@ -35,8 +34,7 @@ pipeline {
                   steps {
                     sh "touch logs.log"
                     sh "docker build -t boil-cwp-typecheck:${VERSION} --target boil-cwp-typecheck ."
-                    sh "docker remove boil-cwp-typecheck -f"
-                    sh "docker run --name boil-cwp-typecheck boil-cwp-typecheck:${VERSION}"
+                    sh "docker run --rm --name boil-cwp-typecheck boil-cwp-typecheck:${VERSION}"
                     archiveArtifacts '**/*log'
                   }
                 }
@@ -44,8 +42,7 @@ pipeline {
                   steps {
                     sh "touch logs.log"
                     sh "docker build -t boil-cwp-lint:${VERSION} --target boil-cwp-lint ."
-                    sh "docker remove boil-cwp-lint -f"
-                    sh "docker run --name boil-cwp-lint boil-cwp-lint:${VERSION}"
+                    sh "docker run --rm --name boil-cwp-lint boil-cwp-lint:${VERSION}"
                     archiveArtifacts '**/*log'
                   }
                 }
@@ -53,8 +50,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "docker remove boil-cwp-nginx -f"
-                sh "docker run -d --name boil-cwp-nginx -p 80:80 boil-cwp:${VERSION}"
+                sh "docker run -d --rm --name boil-cwp-nginx -p 80:80 boil-cwp:${VERSION}"
             }
         }
         stage('Publish') {
