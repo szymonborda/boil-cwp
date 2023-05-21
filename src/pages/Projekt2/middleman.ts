@@ -18,17 +18,6 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     totalDemand += customers[i].demand;
   }
 
-  // Adjust supply and demand to be equal
-  if (totalSupply > totalDemand) {
-    // Add a dummy customer with zero demand
-    customers.push({ demand: totalSupply - totalDemand, sellingPrice: 0 });
-    numCustomers += 1;
-  } else if (totalDemand > totalSupply) {
-    // Add a dummy supplier with zero supply
-    suppliers.push({ supply: totalDemand - totalSupply, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
-    numSuppliers += 1;
-  }
-
   // Initialize arrays to store intermediate results
   const individualProfits: number[][] = [];
   const optimalTransport: number[][] = [];
@@ -56,6 +45,28 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     optimalTransport.push(supplierTransport);
   }
 
+  // Adjust supply and demand to be equal
+  if (totalSupply > totalDemand) {
+    // Add a dummy customer with zero demand
+    customers.push({ demand: totalSupply - totalDemand, sellingPrice: 0 });
+    numCustomers += 1;
+    for (let i = 0; i < numSuppliers; i += 1) {
+      individualProfits[i].push(0);
+      optimalTransport[i].push(0);
+    }
+  } else if (totalDemand > totalSupply) {
+    // Add a dummy supplier with zero supply
+    suppliers.push({ supply: totalDemand - totalSupply, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
+    numSuppliers += 1;
+    const arr: number[] = [];
+    for (let i = 0; i < numCustomers; i += 1) {
+      arr.push(0);
+    }
+    individualProfits.push(arr);
+    optimalTransport.push(arr);
+  }
+
+  /*
   // Perform the Minimum Cell Cost Method
   let remainingSupply = totalSupply;
   let remainingDemand = totalDemand;
@@ -105,7 +116,10 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
 
   // Calculate profit
   const profit = income - totalCost;
-
+  */
+  const totalCost = 0;
+  const income = 0;
+  const profit = 0;
   return {
     individualProfits,
     optimalTransport,
