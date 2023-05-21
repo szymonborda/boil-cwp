@@ -8,4 +8,9 @@ export default defineConfig({
   test: {
     //
   },
+  server: {
+    watch: {
+      usePolling: true,
+    },
+  },
 });
