@@ -1,21 +1,7 @@
 import { useState } from 'react';
 import styles from './styles.module.scss';
-
-interface Supplier {
-  supply: number;
-  purchasePrice: number;
-  transportCosts: number[]; // transportCosts[i] - transport costs to i-th customer
-}
-
-interface Customer {
-  demand: number;
-  sellingPrice: number;
-}
-
-interface MiddlemanIssueInputData {
-  suppliers: Supplier[];
-  customers: Customer[];
-}
+import { MiddlemanIssueInputData, MiddlemanIssueOutputData } from './types';
+import calculateMiddlemanIssue from './middleman';
 
 function Projekt2() {
   const [inputData, setInputData] = useState<MiddlemanIssueInputData>({
@@ -41,6 +27,13 @@ function Projekt2() {
         sellingPrice: 0,
       },
     ],
+  });
+  const [outputData, setOutputData] = useState<MiddlemanIssueOutputData>({
+    individualProfits: [],
+    optimalTransport: [],
+    totalCost: 0,
+    income: 0,
+    profit: 0,
   });
   const addCustomer = () => {
     const newData = structuredClone(inputData);
@@ -75,6 +68,11 @@ function Projekt2() {
     newData.suppliers.splice(index, 1);
     setInputData(newData);
   };
+  const calculate = () => {
+    const output = calculateMiddlemanIssue(structuredClone(inputData));
+    console.log(output);
+    setOutputData(output);
+  };
   return (
     <div className="projekt2">
       <div className="header">
@@ -83,11 +81,12 @@ function Projekt2() {
       </div>
       <div className="panelContainer">
         <table>
-          <tr>
-            <td>
-              <span>Demand</span>
-            </td>
-            {
+          <tbody>
+            <tr>
+              <td>
+                <span>Demand</span>
+              </td>
+              {
               inputData.customers.map((customer, index) => (
                 <td key={`Customer ${index + 1}`}>
                   <span>{`Customer ${index + 1}`}</span>
@@ -106,12 +105,12 @@ function Projekt2() {
                 </td>
               ))
             }
-            <td>
-              <button type="button" onClick={addCustomer}>Add customer</button>
-              <button type="button" onClick={addSupplier}>Add supplier</button>
-            </td>
-          </tr>
-          {
+              <td>
+                <button type="button" onClick={addCustomer}>Add customer</button>
+                <button type="button" onClick={addSupplier}>Add supplier</button>
+              </td>
+            </tr>
+            {
             inputData.suppliers.map((supplier, index) => (
               <tr key={`Supplier ${index + 1}`} className={styles.supplier}>
                 <td>
@@ -130,10 +129,9 @@ function Projekt2() {
                 </td>
                 {
                   supplier.transportCosts.map((transportCost, transportCostIndex) => (
-                    <td>
+                    <td key={`Transport cost ${transportCostIndex + 1}`}>
                       <input
                         className={styles['transport-price-input']}
-                        key={`Transport cost ${transportCostIndex + 1}`}
                         type="number"
                         value={transportCost}
                         onChange={(event) => {
@@ -161,11 +159,11 @@ function Projekt2() {
               </tr>
             ))
           }
-          <tr>
-            <td>
-              <span>Selling price</span>
-            </td>
-            {
+            <tr>
+              <td>
+                <span>Selling price</span>
+              </td>
+              {
               inputData.customers.map((customer, index) => (
                 <td key={`Customer bottom ${index + 1}`}>
                   <input
@@ -180,9 +178,19 @@ function Projekt2() {
                 </td>
               ))
             }
-            <td />
-          </tr>
+              <td />
+            </tr>
+          </tbody>
         </table>
+        <div>
+          <button
+            type="button"
+            onClick={calculate}
+          >
+            Calculate
+          </button>
+
+        </div>
       </div>
     </div>
   );
