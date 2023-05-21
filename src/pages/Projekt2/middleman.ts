@@ -1,8 +1,6 @@
 import { MiddlemanIssueInputData, MiddlemanIssueOutputData } from './types';
 
-export default function calculateMiddlemanIssue(
-  input: MiddlemanIssueInputData,
-): MiddlemanIssueOutputData {
+export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData): MiddlemanIssueOutputData {
   const { suppliers, customers } = input;
 
   let numSuppliers = suppliers.length;
@@ -27,11 +25,7 @@ export default function calculateMiddlemanIssue(
     numCustomers += 1;
   } else if (totalDemand > totalSupply) {
     // Add a dummy supplier with zero supply
-    suppliers.push({
-      supply: totalDemand - totalSupply,
-      purchasePrice: 0,
-      transportCosts: new Array(numCustomers).fill(0),
-    });
+    suppliers.push({ supply: totalDemand - totalSupply, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     numSuppliers += 1;
   }
 
@@ -39,36 +33,74 @@ export default function calculateMiddlemanIssue(
   const individualProfits: number[][] = [];
   const optimalTransport: number[][] = [];
 
-  // Calculate individual profits and optimal transport
+  // Calculate individual profits and initialize optimal transport with zeros
+  for (let i = 0; i < numSuppliers; i += 1) {
+    const supplier = suppliers[i];
+    const { transportCosts } = supplier;
+    const { purchasePrice } = supplier;
+
+    const supplierProfits: number[] = [];
+    const supplierTransport: number[] = new Array(numCustomers).fill(0);
+
+    for (let j = 0; j < numCustomers; j += 1) {
+      const customer = customers[j];
+      const { sellingPrice } = customer;
+
+      const transportCost = transportCosts[j];
+      const profit = sellingPrice - purchasePrice - transportCost;
+
+      supplierProfits.push(profit);
+    }
+
+    individualProfits.push(supplierProfits);
+    optimalTransport.push(supplierTransport);
+  }
+
+  // Perform the Minimum Cell Cost Method
+  let remainingSupply = totalSupply;
+  let remainingDemand = totalDemand;
+
+  while (remainingSupply > 0 && remainingDemand > 0) {
+    let minCost = Infinity;
+    let minSupplier = -1;
+    let minCustomer = -1;
+
+    // Find the minimum cost cell
+    for (let i = 0; i < numSuppliers; i += 1) {
+      for (let j = 0; j < numCustomers; j += 1) {
+        if (optimalTransport[i][j] === 0 && individualProfits[i][j] / suppliers[i].supply < minCost) {
+          minCost = individualProfits[i][j] / suppliers[i].supply;
+          minSupplier = i;
+          minCustomer = j;
+        }
+      }
+    }
+
+    const { supply } = suppliers[minSupplier];
+    const { demand } = customers[minCustomer];
+    const transportQuantity = Math.min(supply, demand);
+
+    optimalTransport[minSupplier][minCustomer] = transportQuantity;
+    remainingSupply -= transportQuantity;
+    remainingDemand -= transportQuantity;
+  }
+
+  // Calculate total cost, income, and profit
   let totalCost = 0;
   let income = 0;
 
   for (let i = 0; i < numSuppliers; i += 1) {
     const supplier = suppliers[i];
     const { transportCosts } = supplier;
-    const { supply } = supplier;
-    const { purchasePrice } = supplier;
-
-    const supplierProfits: number[] = [];
-    const supplierTransport: number[] = [];
 
     for (let j = 0; j < numCustomers; j += 1) {
-      const customer = customers[j];
-      const { demand } = customer;
-      const { sellingPrice } = customer;
-
+      const transportQuantity = optimalTransport[i][j];
       const transportCost = transportCosts[j];
-      const profit = (sellingPrice - purchasePrice) * Math.min(supply, demand);
-      const transportQuantity = Math.min(supply, demand);
+      const { sellingPrice } = customers[j];
 
-      supplierProfits.push(profit);
-      supplierTransport.push(transportQuantity);
       totalCost += transportCost * transportQuantity;
       income += sellingPrice * transportQuantity;
     }
-
-    individualProfits.push(supplierProfits);
-    optimalTransport.push(supplierTransport);
   }
 
   // Calculate profit

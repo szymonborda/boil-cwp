@@ -7,24 +7,24 @@ function Projekt2() {
   const [inputData, setInputData] = useState<MiddlemanIssueInputData>({
     suppliers: [
       {
-        supply: 0,
-        purchasePrice: 0,
-        transportCosts: [0, 0],
+        supply: 45,
+        purchasePrice: 6,
+        transportCosts: [7, 4],
       },
       {
-        supply: 0,
-        purchasePrice: 0,
-        transportCosts: [0, 0],
+        supply: 25,
+        purchasePrice: 7,
+        transportCosts: [3, 5],
       },
     ],
     customers: [
       {
-        demand: 0,
-        sellingPrice: 0,
+        demand: 30,
+        sellingPrice: 12,
       },
       {
-        demand: 0,
-        sellingPrice: 0,
+        demand: 30,
+        sellingPrice: 13,
       },
     ],
   });
