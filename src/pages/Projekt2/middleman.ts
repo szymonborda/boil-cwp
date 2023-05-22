@@ -48,7 +48,7 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
   // Adjust supply and demand to be equal
   if (totalSupply > totalDemand) {
     // Add a dummy customer with zero demand
-    customers.push({ demand: totalSupply - totalDemand, sellingPrice: 0 });
+    customers.push({ demand: totalSupply, sellingPrice: 0 });
     numCustomers += 1;
     for (let i = 0; i < numSuppliers; i += 1) {
       individualProfits[i].push(0);
@@ -56,7 +56,7 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     }
   } else if (totalDemand > totalSupply) {
     // Add a dummy supplier with zero supply
-    suppliers.push({ supply: totalDemand - totalSupply, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
+    suppliers.push({ supply: totalDemand, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     numSuppliers += 1;
     const arr: number[] = [];
     for (let i = 0; i < numCustomers; i += 1) {
@@ -64,6 +64,55 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     }
     individualProfits.push(arr);
     optimalTransport.push(arr);
+  }
+
+  // Perform the Minimum Cell Cost Method
+  let remainingSupply = totalSupply;
+  let remainingDemand = totalDemand;
+
+  while (remainingSupply > 0 && remainingDemand > 0) {
+    let maxProfit = -Infinity;
+    let maxSupplier = -1;
+    let maxCustomer = -1;
+
+    // Find the maximum profit cell
+    for (let i = 0; i < numSuppliers; i += 1) {
+      for (let j = 0; j < numCustomers; j += 1) {
+        if (optimalTransport[i][j] === 0 && individualProfits[i][j] > maxProfit) {
+          maxProfit = individualProfits[i][j];
+          maxSupplier = i;
+          maxCustomer = j;
+        }
+      }
+    }
+    const { supply } = suppliers[maxSupplier];
+    const { demand } = customers[maxCustomer];
+    const transportQuantity = Math.min(supply, demand, remainingSupply, remainingDemand);
+
+    optimalTransport[maxSupplier][maxCustomer] = transportQuantity;
+    remainingSupply -= transportQuantity;
+    remainingDemand -= transportQuantity;
+    if (remainingDemand === 0 || remainingSupply === 0) {
+      optimalTransport[maxSupplier][maxCustomer] = 0;
+    }
+  }
+
+  // Calculate total cost, income, and profit
+  let totalCost = 0;
+  let income = 0;
+
+  for (let i = 0; i < numSuppliers; i += 1) {
+    const supplier = suppliers[i];
+    const { transportCosts, purchasePrice } = supplier;
+
+    for (let j = 0; j < numCustomers; j += 1) {
+      const transportQuantity = optimalTransport[i][j];
+      const transportCost = transportCosts[j];
+      const { sellingPrice } = customers[j];
+
+      totalCost += transportCost * transportQuantity;
+      income += sellingPrice * transportQuantity;
+    }
   }
 
   /*
@@ -117,9 +166,9 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
   // Calculate profit
   const profit = income - totalCost;
   */
-  const totalCost = 0;
-  const income = 0;
-  const profit = 0;
+  // const totalCost = 0;
+  // const income = 0;
+  const profit = income - totalCost;
   return {
     individualProfits,
     optimalTransport,
