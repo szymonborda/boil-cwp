@@ -53,11 +53,13 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     for (let i = 0; i < numSuppliers; i += 1) {
       individualProfits[i].push(0);
       optimalTransport[i].push(0);
+      suppliers[i].transportCosts.push(0);
     }
   } else if (totalDemand > totalSupply) {
     // Add a dummy supplier with zero supply
     suppliers.push({ supply: totalDemand, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     numSuppliers += 1;
+    suppliers.push({ supply: totalDemand, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     const arr: number[] = [];
     for (let i = 0; i < numCustomers; i += 1) {
       arr.push(0);
@@ -144,7 +146,7 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     remainingSupply -= transportQuantity;
     remainingDemand -= transportQuantity;
   }
-
+*/
   // Calculate total cost, income, and profit
   let totalCost = 0;
   let income = 0;
@@ -157,17 +159,12 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
       const transportQuantity = optimalTransport[i][j];
       const transportCost = transportCosts[j];
       const { sellingPrice } = customers[j];
-
       totalCost += transportCost * transportQuantity;
       income += sellingPrice * transportQuantity;
     }
   }
 
   // Calculate profit
-  const profit = income - totalCost;
-  */
-  // const totalCost = 0;
-  // const income = 0;
   const profit = income - totalCost;
   return {
     individualProfits,
