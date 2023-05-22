@@ -1,5 +1,6 @@
 import { MiddlemanIssueInputData, MiddlemanIssueOutputData } from './types';
 
+// eslint-disable-next-line max-len
 export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData): MiddlemanIssueOutputData {
   const { suppliers, customers } = input;
 
@@ -57,8 +58,10 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     }
   } else if (totalDemand > totalSupply) {
     // Add a dummy supplier with zero supply
+    // eslint-disable-next-line max-len
     suppliers.push({ supply: totalDemand, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     numSuppliers += 1;
+    // eslint-disable-next-line max-len
     suppliers.push({ supply: totalDemand, purchasePrice: 0, transportCosts: new Array(numCustomers).fill(0) });
     const arr: number[] = [];
     for (let i = 0; i < numCustomers; i += 1) {
@@ -99,54 +102,6 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
     }
   }
 
-  // Calculate total cost, income, and profit
-  let totalCost = 0;
-  let income = 0;
-
-  for (let i = 0; i < numSuppliers; i += 1) {
-    const supplier = suppliers[i];
-    const { transportCosts, purchasePrice } = supplier;
-
-    for (let j = 0; j < numCustomers; j += 1) {
-      const transportQuantity = optimalTransport[i][j];
-      const transportCost = transportCosts[j];
-      const { sellingPrice } = customers[j];
-
-      totalCost += transportCost * transportQuantity;
-      income += sellingPrice * transportQuantity;
-    }
-  }
-
-  /*
-  // Perform the Minimum Cell Cost Method
-  let remainingSupply = totalSupply;
-  let remainingDemand = totalDemand;
-
-  while (remainingSupply > 0 && remainingDemand > 0) {
-    let minCost = Infinity;
-    let minSupplier = -1;
-    let minCustomer = -1;
-
-    // Find the minimum cost cell
-    for (let i = 0; i < numSuppliers; i += 1) {
-      for (let j = 0; j < numCustomers; j += 1) {
-        if (optimalTransport[i][j] === 0 && individualProfits[i][j] / suppliers[i].supply < minCost) {
-          minCost = individualProfits[i][j] / suppliers[i].supply;
-          minSupplier = i;
-          minCustomer = j;
-        }
-      }
-    }
-
-    const { supply } = suppliers[minSupplier];
-    const { demand } = customers[minCustomer];
-    const transportQuantity = Math.min(supply, demand);
-
-    optimalTransport[minSupplier][minCustomer] = transportQuantity;
-    remainingSupply -= transportQuantity;
-    remainingDemand -= transportQuantity;
-  }
-*/
   // Calculate total cost, income, and profit
   let totalCost = 0;
   let income = 0;
