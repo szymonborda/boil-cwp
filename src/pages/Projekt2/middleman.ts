@@ -17,11 +17,7 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
 
   for (let i = 0; i < numCustomers; i += 1) {
     totalDemand += customers[i].demand;
-  }
-
-  // Initialize arrays to store intermediate results
-  const individualProfits: number[][] = [];
-  const optimalTransport: number[][] = [];
+  } let individualProfits: number[][] = []; let optimalTransport: number[][] = [];
 
   // Calculate individual profits and initialize optimal transport with zeros
   for (let i = 0; i < numSuppliers; i += 1) {
@@ -118,6 +114,19 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
       income += sellingPrice * transportQuantity;
     }
   }
+  // Delete dummy results
+  individualProfits = individualProfits.map((subArr) => {
+    if (subArr.length > 0) {
+      subArr.pop();
+    }
+    return subArr;
+  });
+  optimalTransport = optimalTransport.map((subArr) => {
+    if (subArr.length > 0) {
+      subArr.pop();
+    }
+    return subArr;
+  });
 
   // Calculate profit
   const profit = income - totalCost;

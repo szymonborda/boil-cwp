@@ -4,6 +4,7 @@ import { MiddlemanIssueInputData, MiddlemanIssueOutputData } from './types';
 import calculateMiddlemanIssue from './middleman';
 
 function Projekt2() {
+  const [isCalculated, setIsCalculated] = useState(false);
   const [inputData, setInputData] = useState<MiddlemanIssueInputData>({
     suppliers: [
       {
@@ -72,6 +73,7 @@ function Projekt2() {
     const output = calculateMiddlemanIssue(structuredClone(inputData));
     console.log(output);
     setOutputData(output);
+    setIsCalculated(true);
   };
   return (
     <div className="projekt2">
@@ -80,13 +82,14 @@ function Projekt2() {
         <h4>Projekt 2</h4>
       </div>
       <div className="panelContainer">
-        <table>
-          <tbody>
-            <tr>
-              <td>
-                <span>Demand</span>
-              </td>
-              {
+        <div className="panel">
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <span>Demand</span>
+                </td>
+                {
               inputData.customers.map((customer, index) => (
                 <td key={`Customer ${index + 1}`}>
                   <span>{`Customer ${index + 1}`}</span>
@@ -105,12 +108,12 @@ function Projekt2() {
                 </td>
               ))
             }
-              <td>
-                <button type="button" onClick={addCustomer}>Add customer</button>
-                <button type="button" onClick={addSupplier}>Add supplier</button>
-              </td>
-            </tr>
-            {
+                <td>
+                  <button type="button" onClick={addCustomer}>Add customer</button>
+                  <button type="button" onClick={addSupplier}>Add supplier</button>
+                </td>
+              </tr>
+              {
             inputData.suppliers.map((supplier, index) => (
               <tr key={`Supplier ${index + 1}`} className={styles.supplier}>
                 <td>
@@ -159,11 +162,11 @@ function Projekt2() {
               </tr>
             ))
           }
-            <tr>
-              <td>
-                <span>Selling price</span>
-              </td>
-              {
+              <tr>
+                <td>
+                  <span>Selling price</span>
+                </td>
+                {
               inputData.customers.map((customer, index) => (
                 <td key={`Customer bottom ${index + 1}`}>
                   <input
@@ -178,20 +181,71 @@ function Projekt2() {
                 </td>
               ))
             }
-              <td />
-            </tr>
-          </tbody>
-        </table>
-        <div>
-          <button
-            type="button"
-            onClick={calculate}
-          >
-            Calculate
-          </button>
+                <td />
+              </tr>
+            </tbody>
+          </table>
+          <div>
+            <button
+              type="button"
+              onClick={calculate}
+            >
+              Calculate
+            </button>
 
+          </div>
         </div>
+        {isCalculated
+          ? (
+            <div className="panel">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Invidual profits</td>
+                    <td />
+                  </tr>
+
+                  {outputData.individualProfits.map((profitLine) => (
+                    <tr>
+                      {profitLine.map((profit) => (
+                        <td>
+                          <input type="number" value={profit} disabled />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  <tr>
+                    <td>Optimal transport</td>
+                    <td />
+                  </tr>
+                  {outputData.optimalTransport.map((optiLine) => (
+                    <tr>
+                      {optiLine.map((opti) => (
+                        <td>
+                          <input type="number" value={opti} disabled />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                  <tr>
+                    <td>Total cost</td>
+                    <td>{outputData.totalCost}</td>
+                  </tr>
+                  <tr>
+                    <td>Income</td>
+                    <td>{outputData.income}</td>
+                  </tr>
+                  <tr>
+                    <td>Profit</td>
+                    <td>{outputData.profit}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )
+          : null}
       </div>
+
     </div>
   );
 }
