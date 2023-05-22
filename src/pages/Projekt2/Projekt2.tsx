@@ -57,12 +57,15 @@ function Projekt2() {
   };
   const addSupplier = () => {
     const newData = structuredClone(inputData);
+    // console.log(1);
     newData.suppliers.push({
       supply: 0,
       purchasePrice: 0,
       transportCosts: Array(newData.customers.length).fill(0),
     });
+    // console.log(2);
     setInputData(newData);
+    // console.log(3);
   };
   const removeSupplier = (index: number) => {
     const newData = structuredClone(inputData);
@@ -205,10 +208,10 @@ function Projekt2() {
                     <td />
                   </tr>
 
-                  {outputData.individualProfits.map((profitLine) => (
-                    <tr>
+                  {outputData.individualProfits.map((profitLine, index) => (
+                    <tr key={`profit ${index + 1}`}>
                       {profitLine.map((profit) => (
-                        <td>
+                        <td key={`profitline ${index + 1}`}>
                           <input type="number" value={profit} disabled />
                         </td>
                       ))}
@@ -218,10 +221,10 @@ function Projekt2() {
                     <td>Optimal transport</td>
                     <td />
                   </tr>
-                  {outputData.optimalTransport.map((optiLine) => (
-                    <tr>
+                  {outputData.optimalTransport.map((optiLine, index) => (
+                    <tr key={`transport ${index + 1}`}>
                       {optiLine.map((opti) => (
-                        <td>
+                        <td key={`optiline ${index + 1}`}>
                           <input type="number" value={opti} disabled />
                         </td>
                       ))}
