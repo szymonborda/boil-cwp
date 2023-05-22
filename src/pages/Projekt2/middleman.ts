@@ -108,13 +108,13 @@ export default function calculateMiddlemanIssue(input: MiddlemanIssueInputData):
 
   for (let i = 0; i < numSuppliers; i += 1) {
     const supplier = suppliers[i];
-    const { transportCosts } = supplier;
+    const { transportCosts, purchasePrice } = supplier;
 
     for (let j = 0; j < numCustomers; j += 1) {
       const transportQuantity = optimalTransport[i][j];
       const transportCost = transportCosts[j];
       const { sellingPrice } = customers[j];
-      totalCost += transportCost * transportQuantity;
+      totalCost += (transportCost + purchasePrice) * transportQuantity;
       income += sellingPrice * transportQuantity;
     }
   }
